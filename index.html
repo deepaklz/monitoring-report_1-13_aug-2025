@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foundry Monitoring Report</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #333333;
+        }
+        .container {
+            max-width: 1200px;
+        }
+        .card {
+            background-color: #f7fafc;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .card-header {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2b6cb0;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .grid-card {
+            background-color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            transition: transform 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .grid-card:hover {
+            transform: translateY(-5px);
+            background-color: #4299e1;
+            color: #ffffff;
+        }
+        .grid-card:hover .text-gray-400 {
+            color: #ffffff;
+        }
+        .chart-container {
+            position: relative;
+            height: 350px;
+        }
+        .hover-reveal-container {
+            position: relative;
+        }
+        .hover-reveal-text {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            white-space: nowrap;
+            z-index: 10;
+        }
+        .hover-reveal-container:hover .hover-reveal-text {
+            display: block;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #e2e8f0;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        th {
+            background-color: #edf2f7;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="p-8">
+
+    <div class="container mx-auto">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">Foundry Monitoring Report</h1>
+            <p class="text-xl text-gray-500">Period: 1st August – 13th August 2025</p>
+        </header>
+
+        <!-- 1. Customer Metrics -->
+        <section class="card mb-8">
+            <h2 class="card-header">1. Customer Metrics</h2>
+            <div class="flex flex-col md:flex-row justify-around items-center mb-6">
+                <div class="text-center p-4">
+                    <p class="text-5xl font-bold text-green-600">112</p>
+                    <p class="text-gray-500">Paid Customers</p>
+                </div>
+                <div class="text-center p-4">
+                    <p class="text-5xl font-bold text-green-600">6</p>
+                    <p class="text-gray-500">New Customers</p>
+                </div>
+                <div class="text-center p-4">
+                    <p class="text-5xl font-bold text-red-600">0</p>
+                    <p class="text-gray-500">Dropped Customers</p>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="customerMetricsChart"></canvas>
+            </div>
+            <div class="mt-4 text-sm text-gray-500 text-center">
+                <p>Hover over the bars to see the exact counts for paid, new, and dropped customers across the periods.</p>
+            </div>
+        </section>
+
+        <!-- 2. New Customers Details -->
+        <section class="card mb-8">
+            <h2 class="card-header">2. New Customers Details</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                <div class="grid-card">
+                    <h3 class="font-bold text-xl">Kumar Auto Unit 2 Doraha</h3>
+                    <p class="text-gray-500">Opt-in Feature: Only Reading (Re-join)</p>
+                    <p class="text-gray-500">Cluster: Punjab / Ludhiana</p>
+                </div>
+                <div class="grid-card">
+                    <h3 class="font-bold text-xl">Kumar Autocast Limited</h3>
+                    <p class="text-gray-500">Opt-in Feature: Only Reading (Re-join)</p>
+                    <p class="text-gray-500">Cluster: Punjab / Ludhiana</p>
+                </div>
+                <div class="grid-card">
+                    <h3 class="font-bold text-xl">SRIUNHAT METALIKS PVT. LTD</h3>
+                    <p class="text-gray-500">Opt-in Feature: Only Reading + HMT</p>
+                    <p class="text-gray-500">Cluster: Jharkhand / Jamshedpur</p>
+                </div>
+                <div class="grid-card">
+                    <h3 class="font-bold text-xl">Mane Foundry</h3>
+                    <p class="text-gray-500">Opt-in Feature: Suggestion (Re-join)</p>
+                    <p class="text-gray-500">Cluster: Maharashtra / Kolhapur</p>
+                </div>
+                <div class="grid-card">
+                    <h3 class="font-bold text-xl">Nishnath Dhatukarmi Pvt Ltd</h3>
+                    <p class="text-gray-500">Opt-in Feature: Only Reading (Re-join)</p>
+                    <p class="text-gray-500">Cluster: Maharashtra / Kolhapur</p>
+                </div>
+                <div class="grid-card">
+                    <h3 class="font-bold text-xl">Superior Ferrocast</h3>
+                    <p class="text-gray-500">Opt-in Feature: Only Reading (Re-join)</p>
+                    <p class="text-gray-500">Cluster: Maharashtra / Kolhapur</p>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="newCustomersChart"></canvas>
+            </div>
+            <div class="mt-4 text-sm text-gray-500 text-center">
+                <p>This chart visualizes the distribution of new customers by their geographical cluster, highlighting key growth areas.</p>
+            </div>
+        </section>
+
+        <!-- 3. Customer Grouping via Feature Attributes -->
+        <section class="card mb-8">
+            <h2 class="card-header">3. Customer Grouping via Feature Attributes</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
+                <div class="chart-container">
+                    <canvas id="customerGroupChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <canvas id="softwareOnFeatureChart"></canvas>
+                </div>
+            </div>
+            <div class="mt-4 text-sm text-gray-500 text-center">
+                <p>The pie charts provide a visual breakdown of your customer base. The left chart shows the main customer groups, while the right provides a deeper look at the feature adoption within the 'Software ON' customers.</p>
+            </div>
+        </section>
+
+        <!-- 4. Chargemix Activity -->
+        <section class="card mb-8">
+            <h2 class="card-header">4. Chargemix Activity</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full mb-6 text-sm">
+                    <thead>
+                        <tr>
+                            <th>Company Name</th>
+                            <th>Prev Period Created/Modified</th>
+                            <th>Current Period Created/Modified</th>
+                            <th>Optimized Chargemix Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Brakes India Foundry Division</td><td>6</td><td>14</td><td>12</td></tr>
+                        <tr><td>Brakes India Foundry Division Naidupet</td><td>0</td><td>6</td><td>6</td></tr>
+                        <tr><td>Brakes India Pvt Ltd (Flometallic Unit, Jhagadia)</td><td>0</td><td>0</td><td>0</td></tr>
+                        <tr><td>BRAKES INDIA PRIVATE LIMITED UNIT2</td><td>0</td><td>0</td><td>0</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="chart-container">
+                <canvas id="chargemixChart"></canvas>
+            </div>
+            <div class="mt-4 text-sm text-gray-500 text-center">
+                <p>This chart compares Chargemix activity between the previous and current periods for key customers. Hover to see the number of created/modified and optimized chargemixes.</p>
+            </div>
+        </section>
+        
+        <!-- 5. Software Turned Off -->
+        <section class="card mb-8">
+            <h2 class="card-header">5. Software Turned Off</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div class="grid-card group relative">
+                    <h3 class="font-bold text-xl">Alchemy Precision Cast Pvt Ltd</h3>
+                    <p class="text-gray-500 group-hover:text-black">This Period</p>
+                    <div class="hover-reveal-text hidden group-hover:block">
+                        <p>Remarks: This Period</p>
+                        <p>Opt-in Feature: Charge Mix</p>
+                        <p>Cluster: Maharashtra / Pune</p>
+                    </div>
+                </div>
+                <div class="grid-card group relative">
+                    <h3 class="font-bold text-xl">CRESCENT FOUNDRY CO PVT.LTD.</h3>
+                    <p class="text-gray-500 group-hover:text-black">Previous Period</p>
+                    <div class="hover-reveal-text hidden group-hover:block">
+                        <p>Remarks: Previous Period</p>
+                        <p>Opt-in Feature: Charge Mix</p>
+                        <p>Cluster: West Bengal / Howrah</p>
+                    </div>
+                </div>
+                <div class="grid-card group relative">
+                    <h3 class="font-bold text-xl">Airking Industries</h3>
+                    <p class="text-gray-500 group-hover:text-black">Previous Period</p>
+                    <div class="hover-reveal-text hidden group-hover:block">
+                        <p>Remarks: Previous Period</p>
+                        <p>Opt-in Feature: Suggestion + HMT + MTC</p>
+                        <p>Cluster: Gujarat / Rajkot</p>
+                    </div>
+                </div>
+                <div class="grid-card group relative">
+                    <h3 class="font-bold text-xl">SAN PRECISION ALLOYS PRIVATE LIMITED</h3>
+                    <p class="text-gray-500 group-hover:text-black">Previous Period</p>
+                    <div class="hover-reveal-text hidden group-hover:block">
+                        <p>Remarks: Previous Period</p>
+                        <p>Opt-in Feature: Compared Reading</p>
+                        <p>Cluster: Tamil Nadu / Coimbatore</p>
+                    </div>
+                </div>
+                <div class="grid-card group relative">
+                    <h3 class="font-bold text-xl">Top-Gear Metals Pvt Ltd</h3>
+                    <p class="text-gray-500 group-hover:text-black">Previous Period</p>
+                    <div class="hover-reveal-text hidden group-hover:block">
+                        <p>Remarks: Previous Period</p>
+                        <p>Opt-in Feature: Suggestion Reading</p>
+                        <p>Cluster: Maharashtra / Kolhapur</p>
+                    </div>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="softwareOffChart"></canvas>
+            </div>
+            <div class="mt-4 text-sm text-gray-500 text-center">
+                <p>This chart highlights the number of customers who have turned off their software, categorized by the period.</p>
+            </div>
+        </section>
+
+        <!-- 6. Module Usage Status - Production Plan Creation -->
+        <section class="card mb-8">
+            <h2 class="card-header">6. Production Plan Creation</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full mb-6 text-sm">
+                    <thead>
+                        <tr>
+                            <th>Customer Name</th>
+                            <th>Previous Period Plan Created</th>
+                            <th>Current Period Plan Created</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Shree Kedar metals</td><td>5</td><td>5</td></tr>
+                        <tr><td>Belgaum FerroCast Pvt Ltd</td><td>0</td><td>3</td></tr>
+                        <tr><td>CRESCENT FOUNDRY CO PVT.LTD.(GJ)</td><td>2</td><td>0</td></tr>
+                        <tr><td>Sapre Precision Technologies</td><td>1</td><td>0</td></tr>
+                        <tr><td>Mal Metalliks Pvt. Ltd.</td><td>0</td><td>0</td></tr>
+                        <tr><td>Vishwakarma Founders Pvt Ltd</td><td>0</td><td>0</td></tr>
+                        <tr><td>NIPHA EXPORTS PVT. LTD. SRP</td><td>0</td><td>0</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="chart-container">
+                <canvas id="productionPlanChart"></canvas>
+            </div>
+            <div class="mt-4 text-sm text-gray-500 text-center">
+                <p>The grouped bar chart shows the number of production plans created by each customer in the current and previous periods.</p>
+            </div>
+        </section>
+
+        <!-- 7. Heat Plan Creation -->
+        <section class="card mb-8">
+            <h2 class="card-header">7. Heat Plan Creation</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full mb-6 text-sm">
+                    <thead>
+                        <tr>
+                            <th>Customer Name</th>
+                            <th>Previous Period Created</th>
+                            <th>Previous Period Completed</th>
+                            <th>Current Period Created</th>
+                            <th>Current Period Completed</th>
+                            <th>Last Heat Plan Completed Date</th>
+                            <th>Avg Heat Plan per Day</th>
+                            <th>Benchmark Avg Heat per Day</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Vishwakarma Founders Pvt Ltd</td><td>761</td><td>236</td><td>735</td><td>276</td><td>10-Aug-2025</td><td>66.82</td><td>45</td></tr>
+                        <tr><td>Mal Metalliks Pvt. Ltd.</td><td>357</td><td>149</td><td>452</td><td>188</td><td>9-Aug-2025</td><td>41.09</td><td>60</td></tr>
+                        <tr><td>Shree Kedar metals</td><td>109</td><td>79</td><td>79</td><td>54</td><td>11-Aug-2025</td><td>7.18</td><td>15</td></tr>
+                        <tr><td>Belgaum Ferrocast</td><td>0</td><td>0</td><td>181</td><td>26</td><td>7-Aug-2025</td><td>36.2</td><td>-</td></tr>
+                        <tr><td>CRESCENT FOUNDRY CO PVT.LTD.(GJ)</td><td>74</td><td>12</td><td>21</td><td>9</td><td>4-Aug-2025</td><td>10.5</td><td>40</td></tr>
+                        <tr><td>Sapre Precision Technologies</td><td>80</td><td>18</td><td>0</td><td>0</td><td>13-Aug-2025</td><td>6</td><td>15</td></tr>
+                        <tr><td>NIPHA EXPORTS PVT. LTD. SRP</td><td>11</td><td>0</td><td>0</td><td>0</td><td>-</td><td>0</td><td>70</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="chart-container">
+                <canvas id="heatPlanCreationChart"></canvas>
+            </div>
+            <div class="mt-4 text-sm text-gray-500 text-center">
+                <p>This chart compares the number of heat plans created and completed by various customers, with a line representing the benchmark average.</p>
+            </div>
+        </section>
+
+        <!-- 8. Melting Section - EAF Heat Submission and Recoverable Loss -->
+        <section class="card mb-8">
+            <h2 class="card-header">8. Melting Section - EAF Heat Submission and Recoverable Loss</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full mb-6 text-sm">
+                    <thead>
+                        <tr>
+                            <th>Customer Name</th>
+                            <th>Prev Period Heats Submitted</th>
+                            <th>Prev Period % Recoverable Loss</th>
+                            <th>Current Period Heats Submitted</th>
+                            <th>Current Period % Recoverable Loss</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>LOCO CASTINGS PRIVATE LIMITED</td><td>34</td><td>11.01%</td><td>23</td><td>12.67%</td></tr>
+                        <tr><td>Titagarh Rail Systems Limited (HED)</td><td>126</td><td>14.41%</td><td>77</td><td>14.96%</td></tr>
+                        <tr><td>TITAGARH STEEL</td><td>110</td><td>14.43%</td><td>94</td><td>12.61%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="chart-container">
+                <canvas id="meltingSectionChart"></canvas>
+            </div>
+            <div class="mt-4 text-sm text-gray-500 text-center">
+                <p>This chart tracks heat submissions and recoverable loss percentages, providing a comparative view of customer performance across periods.</p>
+            </div>
+        </section>
+
+        <!-- 9. HMT Section Report -->
+        <section class="card mb-8">
+            <h2 class="card-header">9. HMT Section Report</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full mb-6 text-sm">
+                    <thead>
+                        <tr>
+                            <th>Company Name</th>
+                            <th>Report Type</th>
+                            <th>Last Created Date</th>
+                            <th>Previous Period</th>
+                            <th>Current Period</th>
+                            <th>Parsing Fail Count</th>
+                            <th>Parsing Fail %</th>
+                            <th>Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Vishwakarma Founders Pvt Ltd</td><td>Hardness</td><td>8-Aug-2025</td><td>257</td><td>3</td><td>0</td><td>-</td><td>-</td></tr>
+                        <tr><td>Vishwakarma Founders Pvt Ltd</td><td>Microstructure</td><td>6-Aug-2025</td><td>265</td><td>118</td><td>0</td><td>-</td><td>-</td></tr>
+                        <tr><td>Vishwakarma Founders Pvt Ltd</td><td>Tensile</td><td>13-Aug-2025</td><td>25</td><td>10</td><td>0</td><td>-</td><td>-</td></tr>
+                        <tr><td>MANTRI METALLICS PVT LTD</td><td>Hardness</td><td>13-Aug-2025</td><td>167</td><td>128</td><td>0</td><td>-</td><td>-</td></tr>
+                        <tr><td>MANTRI METALLICS PVT LTD</td><td>Microstructure</td><td>13-Aug-2025</td><td>863</td><td>463</td><td>0</td><td>-</td><td>-</td></tr>
+                        <tr><td>MANTRI METALLICS PVT LTD</td><td>Tensile</td><td>13-Aug-2025</td><td>114</td><td>63</td><td>0</td><td>-</td><td>-</td></tr>
+                        <tr><td>Unimech Industries Pvt Ltd</td><td>Hardness</td><td>21-Jul-2025</td><td>8</td><td>0</td><td>0</td><td>-</td><td>-</td></tr>
+                        <tr><td>Unimech Industries Pvt Ltd</td><td>Tensile</td><td>12-Aug-2025</td><td>84</td><td>67</td><td>0</td><td>-</td><td>-</td></tr>
+                        <tr><td>Mantri Metallics Pvt Ltd Pantnagar</td><td>Hardness</td><td>22-Jul-2025</td><td>43</td><td>0</td><td>-</td><td>-</td><td>-</td></tr>
+                        <tr><td>Mantri Metallics Pvt Ltd Pantnagar</td><td>Tensile</td><td>3-Aug-2025</td><td>18</td><td>8</td><td>0</td><td>-</td><td>-</td></tr>
+                        <tr><td>Mal Metalliks Pvt. Ltd.</td><td>Hardness</td><td>4-Jul-2025</td><td>0</td><td>0</td><td>0</td><td>-</td><td>-</td></tr>
+                        <tr><td>Mal Metalliks Pvt. Ltd.</td><td>Microstructure</td><td>21-Jul-2025</td><td>254</td><td>0</td><td>0</td><td>-</td><td>-</td></tr>
+                        <tr><td>Mal Metalliks Pvt. Ltd.</td><td>Tensile</td><td>31-Jul-2025</td><td>0</td><td>0</td><td>0</td><td>-</td><td>-</td></tr>
+                        <tr><td>GOVIND STEEL</td><td>Microstructure</td><td>12-Aug-2025</td><td>467</td><td>217</td><td>0</td><td>-</td><td>-</td></tr>
+                        <tr><td>NIPHA EXPORTS PVT. LTD. SRP</td><td>Hardness</td><td>6-Feb-2025</td><td>0</td><td>0</td><td>0</td><td>-</td><td>-</td></tr>
+                        <tr><td>NIPHA EXPORTS PVT. LTD. SRP</td><td>Microstructure</td><td>13-Aug-2025</td><td>343</td><td>359</td><td>4</td><td>1.11%</td><td>Test File</td></tr>
+                        <tr><td>NIPHA EXPORTS PVT. LTD. SRP</td><td>Tensile</td><td>23-Jun-2025</td><td>0</td><td>0</td><td>0</td><td>-</td><td>-</td></tr>
+                        <tr><td>KALYAN STEEL PRODUCTS PRIVATE LIMITED</td><td>Hardness</td><td>11-Aug-2025</td><td>0</td><td>96</td><td>0</td><td>-</td><td>-</td></tr>
+                        <tr><td>KALYAN STEEL PRODUCTS PRIVATE LIMITED</td><td>Microstructure</td><td>12-Aug-2025</td><td>-</td><td>2</td><td>0</td><td>-</td><td>-</td></tr>
+                        <tr><td>Airking Industries</td><td>Hardness</td><td>13-Apr-2025</td><td>0</td><td>0</td><td>0</td><td>-</td><td>-</td></tr>
+                        <tr><td>Airking Industries</td><td>Microstructure</td><td>11-Aug-2025</td><td>7</td><td>40</td><td>0</td><td>-</td><td>-</td></tr>
+                        <tr><td>Airking Industries</td><td>Tensile</td><td>12-Apr-2025</td><td>0</td><td>0</td><td>0</td><td>-</td><td>-</td></tr>
+                        <tr><td>CRESCENT FOUNDRY CO PVT.LTD.(GJ)</td><td>Hardness</td><td>31-Jul-2025</td><td>6</td><td>0</td><td>0</td><td>-</td><td>-</td></tr>
+                        <tr><td>CRESCENT FOUNDRY CO PVT.LTD.(GJ)</td><td>Microstructure</td><td>31-Jul-2025</td><td>1</td><td>0</td><td>0</td><td>-</td><td>-</td></tr>
+                        <tr><td>CRESCENT FOUNDRY CO PVT.LTD.(GJ)</td><td>Tensile</td><td>31-Jul-2025</td><td>3</td><td>0</td><td>0</td><td>-</td><td>-</td></tr>
+                        <tr><td>RBA EXPORTS PRIVATE LIMITED TN</td><td>Hardness</td><td>6-Aug-2025</td><td>8</td><td>1</td><td>0</td><td>-</td><td>-</td></tr>
+                        <tr><td>RBA EXPORTS PRIVATE LIMITED TN</td><td>Microstructure</td><td>29-Jul-2025</td><td>7</td><td>0</td><td>0</td><td>-</td><td>-</td></tr>
+                        <tr><td>RBA EXPORTS PRIVATE LIMITED TN</td><td>Tensile</td><td>26-Jul-2025</td><td>7</td><td>0</td><td>0</td><td>-</td><td>-</td></tr>
+                        <tr><td>Parvati Foundry</td><td>Hardness</td><td>17-Jul-2025</td><td>1</td><td>0</td><td>0</td><td>-</td><td>-</td></tr>
+                        <tr><td>Parvati Foundry</td><td>Tensile</td><td>17-Jul-2025</td><td>7</td><td>0</td><td>0</td><td>-</td><td>-</td></tr>
+                        <tr><td>Sapre Precision Technologies</td><td>Hardness</td><td>8-Aug-2025</td><td>0</td><td>4</td><td>4</td><td>100%</td><td>New Parsing</td></tr>
+                        <tr><td>Sapre Precision Technologies</td><td>Microstructure</td><td>23-Jul-2025</td><td>15</td><td>0</td><td>0</td><td>-</td><td>-</td></tr>
+                        <tr><td>Sapre Precision Technologies</td><td>Tensile</td><td>20-Jul-2025</td><td>9</td><td>0</td><td>0</td><td>-</td><td>-</td></tr>
+                        <tr><td>Shree Kedar metals</td><td>Tensile</td><td>25-Jul-2025</td><td>2</td><td>0</td><td>0</td><td>-</td><td>-</td></tr>
+                        <tr><td>Belgaum FerroCast Pvt Ltd</td><td>Microstructure</td><td>4-Aug-2025</td><td>0</td><td>1</td><td>1</td><td>100%</td><td>New Parsing</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="chart-container">
+                <canvas id="hmtConsolidatedChart"></canvas>
+            </div>
+            <div class="mt-4 text-sm text-gray-500 text-center">
+                <p>This chart provides a consolidated view of all HMT reports created across all customers. It compares the total number of reports for each type (Hardness, Microstructure, and Tensile) between the previous and current periods.</p>
+            </div>
+        </section>
+
+        <!-- 10. Casting Report - Material Testing Certificates (MTC) -->
+        <section class="card mb-8">
+            <h2 class="card-header">10. Casting Report - Material Testing Certificates (MTC)</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full mb-6 text-sm">
+                    <thead>
+                        <tr>
+                            <th>Customer Name</th>
+                            <th>Total Certificated - Created</th>
+                            <th>Total Certificated - Pending</th>
+                            <th>Total Certificated - Completed</th>
+                            <th>MTC Created - Previous Period</th>
+                            <th>MTC Created - Current Period</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Vishwakarma Founders Pvt Ltd</td><td>12</td><td>7</td><td>5</td><td>0</td><td>1</td></tr>
+                        <tr><td>Airking Industries</td><td>3</td><td>2</td><td>1</td><td>0</td><td>0</td></tr>
+                        <tr><td>NIPHA EXPORTS PVT. LTD. SRP</td><td>4</td><td>1</td><td>3</td><td>0</td><td>0</td></tr>
+                        <tr><td>Mal Metalliks Pvt. Ltd.</td><td>12</td><td>12</td><td>0</td><td>0</td><td>0</td></tr>
+                        <tr><td>CRESCENT FOUNDRY CO PVT.LTD.(GJ)</td><td>5</td><td>1</td><td>4</td><td>2</td><td>0</td></tr>
+                        <tr><td>GOVIND Steel</td><td>2</td><td>1</td><td>1</td><td>0</td><td>0</td></tr>
+                        <tr><td>Unimech Industries Pvt Ltd</td><td>2</td><td>2</td><td>0</td><td>2</td><td>0</td></tr>
+                        <tr><td>KALYAN STEEL PRODUCTS PRIVATE LIMITED</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                        <tr><td>Sapre Precision Technologies</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                        <tr><td>Luthra</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                        <tr><td>Shree Kedar metals</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                        <tr><td>Belgaum Ferrocast</td><td>1</td><td>-</td><td>-</td><td>0</td><td>0</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="chart-container">
+                <canvas id="mtcChart"></canvas>
+            </div>
+            <div class="mt-4 text-sm text-gray-500 text-center">
+                <p>This stacked bar chart shows the status of Material Testing Certificates, differentiating between pending and completed certifications for each customer. Hover over the segments to see exact counts.</p>
+            </div>
+        </section>
+
+        <!-- 11. 15 Days Working Hardware Status -->
+        <section class="card mb-8">
+            <h2 class="card-header">11. 15 Days Working Hardware Status</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full mb-6 text-sm">
+                    <thead>
+                        <tr>
+                            <th>Hardware Classification</th>
+                            <th>Customers Onboarded</th>
+                            <th>Devices Assigned</th>
+                            <th>Customers Device ON $\geq$1 Day</th>
+                            <th>Devices ON $\geq$5 Days</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Spectro TV</td><td>46</td><td>64</td><td>36</td><td>47</td></tr>
+                        <tr><td>Spectro-Tablet</td><td>11</td><td>11</td><td>2</td><td>2</td></tr>
+                        <tr><td>DigiMelt-IF</td><td>6</td><td>7</td><td>3</td><td>4</td></tr>
+                        <tr><td>DigiMelt-EAF</td><td>3</td><td>5</td><td>2</td><td>3</td></tr>
+                        <tr><td>Heat Plan-Tablet</td><td>2</td><td>4</td><td>0</td><td>0</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="chart-container">
+                <canvas id="hardwareStatusChart"></canvas>
+            </div>
+            <div class="mt-4 text-sm text-gray-500 text-center">
+                <p>This grouped bar chart displays the status of various hardware devices. It compares the number of customers and devices assigned against their usage metrics.</p>
+            </div>
+        </section>
+
+        <!-- Overall Insight -->
+        <section class="card mb-8">
+            <h2 class="card-header">Insight: Steady Customer Growth</h2>
+            <p class="text-gray-600">
+                The report highlights a steady increase in the paid customer base, with **6 new customers** onboarded this period. The majority of these new customers have opted for the "Only Reading" feature, which suggests that a low-commitment, data-focused entry point is a successful acquisition strategy.
+            </p>
+        </section>
+        
+        <section class="card mb-8">
+            <h2 class="card-header">Insight: Mixed Engagement & Retention</h2>
+            <p class="text-gray-600">
+                While customer acquisition is positive, the report also flags potential retention issues. Several customers have turned off their software, and some, like NIPHA EXPORTS, are experiencing a high parsing failure rate of **1.11%** in their Microstructure reports, indicating a potential technical issue that needs to be addressed.
+            </p>
+        </section>
+
+        <section class="card mb-8">
+            <h2 class="card-header">Insight: High-Performing Customers</h2>
+            <p class="text-gray-600">
+                On a positive note, a few customers, such as **Vishwakarma Founders** and **Mal Metalliks**, are showing exceptional engagement with heat plan creation. They are significantly exceeding their benchmark averages, which is a strong indicator of the software's value and successful adoption in these specific cases.
+            </p>
+        </section>
+
+        <section class="card mb-8">
+            <h2 class="card-header">Insight: Hardware Usage Disparity</h2>
+            <p class="text-gray-600">
+                The data shows a clear disparity in hardware usage, with **Spectro TV** being the most active device. This suggests an opportunity to promote the usage of other devices like the Spectro-Tablet and Heat Plan-Tablet, which are currently seeing lower engagement, to unlock their full potential and provide more value to customers.
+            </p>
+        </section>
+
+    </div>
+
+    <script>
+        // Chart.js configuration
+        const createChart = (id, type, data, options) => {
+            const ctx = document.getElementById(id).getContext('2d');
+            new Chart(ctx, { type, data, options });
+        };
+
+        const chartColors = [
+            '#4299e1', '#f6ad55', '#48bb78', '#fc8181', '#a0aec0', '#d53f8c', '#805ad5', '#e53e3e'
+        ];
+        
+        const darkText = '#333333';
+        const lightGrid = 'rgba(226, 232, 240, 0.5)';
+
+        // 1. Customer Metrics
+        const customerMetricsData = {
+            labels: ['Previous Period', 'Current Period'],
+            datasets: [
+                {
+                    label: 'Paid Customers',
+                    data: [106, 112],
+                    backgroundColor: chartColors[0],
+                },
+                {
+                    label: 'New Customers',
+                    data: [6, 6],
+                    backgroundColor: chartColors[1],
+                },
+                {
+                    label: 'Dropped Customers',
+                    data: [0, 0],
+                    backgroundColor: chartColors[2],
+                }
+            ]
+        };
+        const customerMetricsOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true, grid: { color: lightGrid }, ticks: { color: darkText } },
+                x: { grid: { color: lightGrid }, ticks: { color: darkText } }
+            },
+            plugins: {
+                legend: { labels: { color: darkText } },
+                tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y}` } }
+            }
+        };
+        createChart('customerMetricsChart', 'bar', customerMetricsData, customerMetricsOptions);
+
+        // 2. New Customers Details
+        const newCustomersData = {
+            labels: ['Punjab', 'Jharkhand', 'Maharashtra'],
+            datasets: [{
+                label: 'New Customers by Cluster',
+                data: [2, 1, 3],
+                backgroundColor: chartColors,
+            }]
+        };
+        const newCustomersOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true, grid: { color: lightGrid }, ticks: { color: darkText, precision: 0 } },
+                x: { grid: { color: lightGrid }, ticks: { color: darkText } }
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${ctx.parsed.y} customers` } }
+            }
+        };
+        createChart('newCustomersChart', 'bar', newCustomersData, newCustomersOptions);
+        
+        // 3. Customer Grouping via Feature Attributes
+        const customerGroupData = {
+            labels: ['ChargeMix Users', 'Software OFF', 'Software ON'],
+            datasets: [{
+                data: [4, 5, 109],
+                backgroundColor: ['#f6ad55', '#e53e3e', '#48bb78'],
+            }]
+        };
+        const softwareOnFeatureData = {
+            labels: ['Whatsapp (Only Reading)', 'Whatsapp (Compared Reading)', 'Whatsapp (Suggestion Reading)'],
+            datasets: [{
+                data: [12, 11, 86],
+                backgroundColor: ['#4299e1', '#a0aec0', '#d53f8c'],
+            }]
+        };
+        const pieChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { labels: { color: darkText } },
+                tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${ctx.parsed}` } }
+            }
+        };
+        createChart('customerGroupChart', 'pie', customerGroupData, pieChartOptions);
+        createChart('softwareOnFeatureChart', 'pie', softwareOnFeatureData, pieChartOptions);
+        
+        // 4. Chargemix Activity
+        const chargemixData = {
+            labels: ['Brakes India Foundry Division', 'Brakes India Foundry Division Naidupet', 'Brakes India Pvt Ltd (Flometallic Unit, Jhagadia)', 'BRAKES INDIA PRIVATE LIMITED UNIT2'],
+            datasets: [{
+                label: 'Prev Period Created/Modified',
+                data: [6, 0, 0, 0],
+                backgroundColor: '#4299e1',
+            }, {
+                label: 'Current Period Created/Modified',
+                data: [14, 6, 0, 0],
+                backgroundColor: '#f6ad55',
+            }, {
+                label: 'Optimized Chargemix Count',
+                data: [12, 6, 0, 0],
+                backgroundColor: '#48bb78',
+            }]
+        };
+        const chargemixOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true, grid: { color: lightGrid }, ticks: { color: darkText, precision: 0 } },
+                x: { grid: { color: lightGrid }, ticks: { color: darkText } }
+            },
+            plugins: {
+                legend: { labels: { color: darkText } },
+                tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y}` } }
+            }
+        };
+        createChart('chargemixChart', 'bar', chargemixData, chargemixOptions);
+
+        // 5. Software Turned Off
+        const softwareOffData = {
+            labels: ['This Period', 'Previous Period'],
+            datasets: [{
+                label: 'Customers with Software Off',
+                data: [1, 4],
+                backgroundColor: ['#e53e3e', '#fc8181'],
+            }]
+        };
+        const softwareOffOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true, grid: { color: lightGrid }, ticks: { color: darkText, precision: 0 } },
+                x: { grid: { color: lightGrid }, ticks: { color: darkText } }
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${ctx.parsed.y} customers` } }
+            }
+        };
+        createChart('softwareOffChart', 'bar', softwareOffData, softwareOffOptions);
+
+        // 6. Production Plan Creation
+        const productionPlanData = {
+            labels: ['Shree Kedar metals', 'Belgaum FerroCast Pvt Ltd', 'CRESCENT FOUNDRY CO PVT.LTD.(GJ)', 'Sapre Precision Technologies', 'Mal Metalliks Pvt. Ltd.', 'Vishwakarma Founders Pvt Ltd', 'NIPHA EXPORTS PVT. LTD. SRP'],
+            datasets: [{
+                label: 'Previous Period',
+                data: [5, 0, 2, 1, 0, 0, 0],
+                backgroundColor: '#4299e1',
+            }, {
+                label: 'Current Period',
+                data: [5, 3, 0, 0, 0, 0, 0],
+                backgroundColor: '#f6ad55',
+            }]
+        };
+        const productionPlanOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true, grid: { color: lightGrid }, ticks: { color: darkText, precision: 0 } },
+                x: { grid: { color: lightGrid }, ticks: { color: darkText } }
+            },
+            plugins: {
+                legend: { labels: { color: darkText } },
+                tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y}` } }
+            }
+        };
+        createChart('productionPlanChart', 'bar', productionPlanData, productionPlanOptions);
+
+        // 7. Heat Plan Creation
+        const heatPlanCreationData = {
+            labels: ['Vishwakarma Founders', 'Mal Metalliks', 'Shree Kedar metals', 'Belgaum Ferrocast', 'Crescent Foundry', 'Sapre Precision'],
+            datasets: [{
+                label: 'Current Period Created',
+                data: [735, 452, 79, 181, 21, 0],
+                backgroundColor: '#4299e1',
+            }, {
+                label: 'Current Period Completed',
+                data: [276, 188, 54, 26, 9, 0],
+                backgroundColor: '#48bb78',
+            }, {
+                label: 'Benchmark Avg Heat per Day',
+                data: [45, 60, 15, null, 40, 15],
+                borderColor: '#e53e3e',
+                type: 'line',
+                fill: false,
+                tension: 0.1,
+                pointRadius: 5
+            }]
+        };
+        const heatPlanCreationOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true, grid: { color: lightGrid }, ticks: { color: darkText, precision: 0 } },
+                x: { grid: { color: lightGrid }, ticks: { color: darkText } }
+            },
+            plugins: {
+                legend: { labels: { color: darkText } },
+                tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y}` } }
+            }
+        };
+        createChart('heatPlanCreationChart', 'bar', heatPlanCreationData, heatPlanCreationOptions);
+
+        // 8. Melting Section
+        const meltingSectionData = {
+            labels: ['LOCO CASTINGS', 'Titagarh Rail', 'TITAGARH STEEL'],
+            datasets: [{
+                label: 'Previous Heats Submitted',
+                data: [34, 126, 110],
+                backgroundColor: '#4299e1',
+            }, {
+                label: 'Current Heats Submitted',
+                data: [23, 77, 94],
+                backgroundColor: '#48bb78',
+            }, {
+                label: 'Previous % Recoverable Loss',
+                data: [11.01, 14.41, 14.43],
+                borderColor: '#e53e3e',
+                type: 'line',
+                fill: false,
+                tension: 0.1,
+                yAxisID: 'y1',
+                pointRadius: 5
+            }, {
+                label: 'Current % Recoverable Loss',
+                data: [12.67, 14.96, 12.61],
+                borderColor: '#fc8181',
+                type: 'line',
+                fill: false,
+                tension: 0.1,
+                yAxisID: 'y1',
+                pointRadius: 5
+            }]
+        };
+        const meltingSectionOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true, grid: { color: lightGrid }, ticks: { color: darkText, precision: 0 } },
+                y1: { type: 'linear', position: 'right', beginAtZero: true, grid: { display: false }, ticks: { color: darkText, callback: (value) => `${value}%` } },
+                x: { grid: { color: lightGrid }, ticks: { color: darkText } }
+            },
+            plugins: {
+                legend: { labels: { color: darkText } },
+                tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y}${ctx.dataset.label.includes('%') ? '%' : ''}` } }
+            }
+        };
+        createChart('meltingSectionChart', 'bar', meltingSectionData, meltingSectionOptions);
+        
+        // 9. HMT Section Report (Consolidated chart)
+        const hmtConsolidatedData = {
+            labels: ['Hardness', 'Microstructure', 'Tensile'],
+            datasets: [
+                {
+                    label: 'Previous Period',
+                    data: [582, 1797, 172], // Sum of Previous Period for each Report Type
+                    backgroundColor: '#4299e1',
+                },
+                {
+                    label: 'Current Period',
+                    data: [232, 903, 148], // Sum of Current Period for each Report Type
+                    backgroundColor: '#f6ad55',
+                }
+            ]
+        };
+        const hmtConsolidatedOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true, grid: { color: lightGrid }, ticks: { color: darkText, precision: 0 } },
+                x: { grid: { color: lightGrid }, ticks: { color: darkText } }
+            },
+            plugins: {
+                legend: { labels: { color: darkText } },
+                tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y} reports` } }
+            }
+        };
+        createChart('hmtConsolidatedChart', 'bar', hmtConsolidatedData, hmtConsolidatedOptions);
+        
+        // 10. Casting Report (MTC)
+        const mtcData = {
+            labels: ['Vishwakarma Founders', 'Airking Industries', 'NIPHA EXPORTS', 'Mal Metalliks', 'CRESCENT FOUNDRY', 'GOVIND Steel', 'Unimech Industries'],
+            datasets: [{
+                label: 'Completed',
+                data: [5, 1, 3, 0, 4, 1, 0],
+                backgroundColor: '#48bb78',
+            }, {
+                label: 'Pending',
+                data: [7, 2, 1, 12, 1, 1, 2],
+                backgroundColor: '#f6ad55',
+            }]
+        };
+        const mtcOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: { stacked: true, grid: { color: lightGrid }, ticks: { color: darkText } },
+                y: { stacked: true, beginAtZero: true, grid: { color: lightGrid }, ticks: { color: darkText, precision: 0 } }
+            },
+            plugins: {
+                legend: { labels: { color: darkText } },
+                tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y}` } }
+            }
+        };
+        createChart('mtcChart', 'bar', mtcData, mtcOptions);
+        
+        // 11. 15 Days Working Hardware Status
+        const hardwareStatusData = {
+            labels: ['Spectro TV', 'Spectro-Tablet', 'DigiMelt-IF', 'DigiMelt-EAF', 'Heat Plan-Tablet'],
+            datasets: [{
+                label: 'Customers Onboarded',
+                data: [46, 11, 6, 3, 2],
+                backgroundColor: '#4299e1',
+            }, {
+                label: 'Devices Assigned',
+                data: [64, 11, 7, 5, 4],
+                backgroundColor: '#f6ad55',
+            }, {
+                label: 'Customers Device ON $\geq$1 Day',
+                data: [36, 2, 3, 2, 0],
+                backgroundColor: '#48bb78',
+            }, {
+                label: 'Devices ON $\geq$5 Days',
+                data: [47, 2, 4, 3, 0],
+                backgroundColor: '#a0aec0',
+            }]
+        };
+        const hardwareStatusOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true, grid: { color: lightGrid }, ticks: { color: darkText, precision: 0 } },
+                x: { grid: { color: lightGrid }, ticks: { color: darkText } }
+            },
+            plugins: {
+                legend: { labels: { color: darkText } },
+                tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y}` } }
+            }
+        };
+        createChart('hardwareStatusChart', 'bar', hardwareStatusData, hardwareStatusOptions);
+
+    </script>
+</body>
+</html>
